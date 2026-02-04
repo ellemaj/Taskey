@@ -19,6 +19,6 @@ class Response
 
     public function echo(): void
     {
-        echo "You requested: " . $this-> headers . "with response code: " . $this-> responseCode . " " . $this->body;
+        echo $this->body;
     }
 }
