@@ -14,14 +14,13 @@ class Router
     public function dispatch(Request $request): Response
     {
         foreach ($this->routes as $route) {
-            if ($route->matches($request->method, $request->path)) {
+            if ($route->path === $request->path) {
                 $matchedRoute = $route;
-                break;
             }
         }
 
         if (!isset($matchedRoute)) {
-            return new Response("No route matched", 404, null);
+            return new Response("404 | Not found", 404, null);
         }
 
         return call_user_func($matchedRoute->callback);
