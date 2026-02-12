@@ -2,15 +2,53 @@
 
 namespace Framework;
 
+use Exception;
+use PHPStan\BetterReflection\SourceLocator\Exception\EvaledClosureCannotBeLocated;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 class ResponseFactory
 {
-    public function body(string $body): Response
+    private Environment $twig;
+
+    public function __construct()
     {
-        return new Response($body, 200);
+        $loader = new FilesystemLoader('../app/views');
+        $this->twig = new Environment($loader, [
+            'debug' => true,
+        ]);
     }
 
+    /**
+     * @param string $template
+     * @param array<string, mixed> $parameters
+     * @return Response
+     * @throws Exception
+     */
+    public function view(string $template, array $parameters): Response
+    {
+        try {
+            return new Response($this->twig->render($template, $parameters), 200);
+        } catch (Exception $e) {
+            throw new Exception('Failed to render page' . $e);
+        }
+    }
+
+    public function body(string $txt): Response
+    {
+        return new Response($txt, 200);
+    }
+
+    /**
+     * @return Response
+     * @throws Exception
+     */
     public function notFound(): Response
     {
-        return new Response("404 | Not Found", 404);
+        try {
+            return new Response($this->twig->render('404.html.twig'), 404);
+        } catch (Exception $e) {
+            throw new Exception('Failed to render page' . $e);
+        }
     }
 }
