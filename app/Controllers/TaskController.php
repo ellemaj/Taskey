@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use Framework\Request;
 use Framework\Response;
 use Framework\ResponseFactory;
 
@@ -16,32 +17,32 @@ class TaskController
     }
 
     /**
+     * @return Response
      * @throws Exception
      */
     public function index(): Response
     {
-        return $this->responseFactory->view('tasks/index.html.twig', [
-//            'navigation' => [
-//                array('caption' => 'Home', 'href' => '/'),
-//                array('caption' => 'About Taskey', 'href' => 'about'),
-//                array('caption' => 'Tasks', 'href' => 'tasks'),
-//                array('caption' => 'Create tasks', 'href' => 'create tasks'),
-//            ]
-        ]);
+        return $this->responseFactory->view('tasks/index.html.twig');
     }
 
     /**
+     * @return Response
      * @throws Exception
      */
     public function create(): Response
     {
-        return $this->responseFactory->view('tasks/create.html.twig', [
-//            'navigation' => [
-//                array('caption' => 'Home', 'href' => '/'),
-//                array('caption' => 'About Taskey', 'href' => 'about'),
-//                array('caption' => 'Tasks', 'href' => 'tasks'),
-//                array('caption' => 'Create tasks', 'href' => 'create tasks'),
-//            ]
+        return $this->responseFactory->view('tasks/create.html.twig');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function show(Request $request): Response
+    {
+        return $this->responseFactory->view('tasks/show.html.twig', [
+            "id" => $request->get('id')
         ]);
     }
 }

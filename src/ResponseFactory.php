@@ -3,7 +3,6 @@
 namespace Framework;
 
 use Exception;
-use PHPStan\BetterReflection\SourceLocator\Exception\EvaledClosureCannotBeLocated;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -11,11 +10,11 @@ class ResponseFactory
 {
     private Environment $twig;
 
-    public function __construct()
+    public function __construct(bool $debug, string $path)
     {
-        $loader = new FilesystemLoader('../app/views');
+        $loader = new FilesystemLoader($path);
         $this->twig = new Environment($loader, [
-            'debug' => true,
+            'debug' => $debug,
         ]);
     }
 
@@ -25,12 +24,20 @@ class ResponseFactory
      * @return Response
      * @throws Exception
      */
-    public function view(string $template, array $parameters): Response
+    public function view(string $template, array $parameters = []): Response
     {
+        $default = [
+            'navigation' => [
+                array('caption' => 'Home', 'href' => '/'),
+                array('caption' => 'About', 'href' => 'about'),
+                array('caption' => 'Tasks', 'href' => 'tasks'),
+            ]
+        ];
+
         try {
-            return new Response($this->twig->render($template, $parameters), 200);
+            return new Response(200, $this->twig->render($template, array_merge($default, $parameters)));
         } catch (Exception $e) {
-            throw new Exception('Failed to render page' . $e);
+            throw new Exception('Failed to render page ' . $e);
         }
     }
 
@@ -46,9 +53,15 @@ class ResponseFactory
     public function notFound(): Response
     {
         try {
-            return new Response($this->twig->render('404.html.twig'), 404);
+            return new Response(404, $this->twig->render('404.html.twig', [
+                'navigation' => [
+                    array('caption' => 'Home', 'href' => '/'),
+                    array('caption' => 'About', 'href' => 'about'),
+                    array('caption' => 'Tasks', 'href' => 'tasks'),
+                ]
+            ]), null);
         } catch (Exception $e) {
-            throw new Exception('Failed to render page' . $e);
+            throw new Exception('Failed to render page ' . $e);
         }
     }
 }

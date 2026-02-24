@@ -16,12 +16,14 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(ServiceContainer $container): void
     {
-        $responseFactory = $container->get(ResponseFactory::class);
+        $homeController = new HomeController($container->get(ResponseFactory::class));
+        $taskController = new TaskController($container->get(ResponseFactory::class));
 
-        $homeController = new HomeController($responseFactory);
-        $container->set(HomeController::class, $homeController);
-
-        $taskController = new TaskController($responseFactory);
-        $container->set(TaskController::class, $taskController);
+        try {
+            $container->set(HomeController::class, $homeController);
+            $container->set(TaskController::class, $taskController);
+        } catch (Exception $exception) {
+            echo $exception;
+        }
     }
 }

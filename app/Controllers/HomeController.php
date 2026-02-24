@@ -20,12 +20,7 @@ class HomeController
      */
     public function index(): Response
     {
-        return $this->responseFactory->view('index.html.twig', [
-//            'navigation' => [
-//                array('caption' => 'About Taskey', 'href' => 'about'),
-//                array('caption' => 'Tasks', 'href' => 'tasks'),
-//            ]
-        ]);
+        return $this->responseFactory->view('index.html.twig');
     }
 
     /**
@@ -33,11 +28,6 @@ class HomeController
      */
     public function about(): Response
     {
-        return $this->responseFactory->view('about.html.twig', [
-//            'navigation' => [
-//                array('caption' => 'About Taskey', 'href' => 'about'),
-//                array('caption' => 'Tasks', 'href' => 'tasks'),
-//            ]
-        ]);
+        return $this->responseFactory->view('about.html.twig');
     }
 }
