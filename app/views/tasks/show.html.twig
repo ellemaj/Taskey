@@ -1,8 +1,8 @@
 {% extends "layouts/base.html.twig" %}
 
-{% block title %}Tasks{% endblock %}
+{% block title %}Task {{ id ?? '?' }}{% endblock %}
 
 {% block content %}
     <h1 class="text-3xl font-bold mb-6">Tasks</h1>
-    <p> Task {{ id ?? '?' }}</p>
+    <p class="text-gray-400 mt-4 max-w-md mx-auto"> Task {{ id ?? '?' }}</p>
 {% endblock %}
