@@ -3,6 +3,10 @@
 {% block title %}Task {{ id ?? '?' }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold mb-6">Tasks</h1>
-    <p class="text-gray-400 mt-4 max-w-md mx-auto"> Task {{ id ?? '?' }}</p>
+    <h1 class="text-3xl font-bold mb-6">Task {{ task.id }}: {{ task.title }}</h1>
+
+    <p>{{ task.description }}</p>
+    <p>Priority: {{ task.priority }}</p>
+    <p>Status: {{ task.status }}</p>
+    <p>Progress: {{ task.progress }}%</p>
 {% endblock %}

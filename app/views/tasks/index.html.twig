@@ -3,9 +3,42 @@
 {% block title %}Tasks{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold mb-6">Tasks</h1>
+    <h1 class="text-3xl font-bold mb-8">Tasks</h1>
 
-    <div class="bg-white p-6 rounded-lg shadow">
-        Your tasks
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {%  for task in tasks %}
+            <a href="/tasks/{{ task.id }}"
+            class="block bg-white rounded-x1 shadow hover:shadow-lg transition p-6 border border-gray-100">
+
+                <div class="flex justify-between items-start mb-3">
+                    <h2 class="text-lg font-semibold">{{ task.title }}</h2>
+
+                    <span class="text-cs px-2 py-1 rounded-full
+                        {%  if task.status == 4 %}
+                            bg-green-100 text-green-700
+                        {%  elseif task.status == 3 %}
+                            bg-yellow-100 text-yellow-700
+                        {%  else %}
+                            bg-gray-100 text-gray-600
+                        {% endif %}
+                    ">
+                        Status {{ task.status }}
+                    </span>
+                </div>
+
+                <p class="text-sm text-gray-600 line-clamp-2 mb-4">
+                    {{ task.description }}
+                </p>
+
+                <div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full"
+                             style="width: {{ task.progress }}%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">{{ task.progress }}% complete</p>
+                </div>
+
+            </a>
+        {% endfor %}
     </div>
 {% endblock %}
