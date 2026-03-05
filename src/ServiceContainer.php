@@ -27,13 +27,18 @@ class ServiceContainer
     }
 
     /**
+     * @template T of object
+     * @param class-string<T> $id
+     * @return T
      * @throws Exception
      */
     public function get(string $id): object
     {
         if (!isset($this->instances[$id])) {
-            throw new Exception("Service '{$id}' does not exist.");
+            throw new Exception("Target binding [$id] does not exist.");
         }
+
+        /** @var T */
         return $this->instances[$id];
     }
 }
