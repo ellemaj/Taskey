@@ -4,91 +4,199 @@
 
 {% block content %}
     <form method="POST" action="/tasks">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <div class="bg-gray-100 px-6 py-4 border-b">
-                <strong class="text-gray-800 text-lg">Create New Task</strong>
+
+        <div class="space-y-6">
+
+            <!-- Header -->
+            <div>
+                <a href="/tasks"
+                   class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition">
+                    ← Back to tasks
+                </a>
+
+                <h1 class="text-2xl font-semibold text-slate-900 dark:text-white mt-1">
+                    Create Task
+                </h1>
             </div>
 
-            <div class="px-6 py-4 space-y-4">
 
-                {# Title #}
-                <div class="flex items-center">
-                    <label for="title" class="w-1/4 font-semibold text-gray-700">Title</label>
-                    <div class="w-3/4">
-                        <input type="text" id="title" name="title" value="{{ task.title }}"
-                               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        {% if errors.title %}
-                            <div class="text-red-600 text-sm mt-1">{{ errors.title }}</div>
-                        {% endif %}
+            <!-- Form Card -->
+            <div class="bg-white dark:bg-[#0d1117] rounded-xl shadow-sm border border-slate-200 dark:border-[#30363d] overflow-hidden">
+
+                <div class="divide-y divide-slate-200 dark:divide-[#30363d]">
+
+                    <!-- Title -->
+                    <div class="grid grid-cols-4 px-6 py-4 items-center">
+
+                        <label for="title" class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Title
+                        </label>
+
+                        <div class="col-span-3">
+
+                            <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value="{{ task.title }}"
+                                    class="w-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#161b22] rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+
+                            {% if errors.title %}
+                                <div class="text-red-500 text-sm mt-1">{{ errors.title }}</div>
+                            {% endif %}
+
+                        </div>
+
                     </div>
-                </div>
 
-                {# Description #}
-                <div class="flex items-start">
-                    <label for="description" class="w-1/4 font-semibold text-gray-700">Description</label>
-                    <div class="w-3/4">
-                    <textarea id="description" name="description"
-                              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ task.description }}</textarea>
-                        {% if errors.description %}
-                            <div class="text-red-600 text-sm mt-1">{{ errors.description }}</div>
-                        {% endif %}
+
+                    <!-- Description -->
+                    <div class="grid grid-cols-4 px-6 py-4">
+
+                        <label for="description" class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Description
+                        </label>
+
+                        <div class="col-span-3">
+
+                    <textarea
+                            id="description"
+                            name="description"
+                            rows="4"
+                            class="w-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#161b22] rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >{{ task.description }}</textarea>
+
+                            {% if errors.description %}
+                                <div class="text-red-500 text-sm mt-1">{{ errors.description }}</div>
+                            {% endif %}
+
+                        </div>
+
                     </div>
-                </div>
 
-                {# Priority #}
-                <div class="flex items-start">
-                    <div class="w-1/4 font-semibold text-gray-700">Priority</div>
-                    <div class="w-3/4 space-y-1">
-                        {% for value, label in priorities %}
-                            <label class="flex items-center space-x-2">
-                                <input type="radio" name="priority" value="{{ value }}"
-                                       {% if task.priority == value %}checked{% endif %}
-                                       class="form-radio text-blue-600">
-                                <span>{{ label|capitalize }}</span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
 
-                {# Status #}
-                <div class="flex items-center">
-                    <label for="status" class="w-1/4 font-semibold text-gray-700">Status</label>
-                    <div class="w-3/4">
-                        <select name="status" id="status"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            {% for value, label in statuses %}
-                                <option value="{{ value }}" {% if task.status == value %}selected{% endif %}>
-                                    {{ label|title }}
-                                </option>
+                    <!-- Priority -->
+                    <div class="grid grid-cols-4 px-6 py-4">
+
+                        <div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Priority
+                        </div>
+
+                        <div class="col-span-3 flex gap-4 flex-wrap">
+
+                            {% for value, label in priorities %}
+
+                                <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+
+                                    <input
+                                            type="radio"
+                                            name="priority"
+                                            value="{{ value }}"
+                                            {% if task.priority == value %}checked{% endif %}
+                                            class="accent-blue-600"
+                                    >
+
+                                    {{ label|capitalize }}
+
+                                </label>
+
                             {% endfor %}
-                        </select>
+
+                        </div>
+
                     </div>
+
+
+                    <!-- Status -->
+                    <div class="grid grid-cols-4 px-6 py-4 items-center">
+
+                        <label for="status" class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Status
+                        </label>
+
+                        <div class="col-span-3">
+
+                            <select
+                                    name="status"
+                                    id="status"
+                                    class="w-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#161b22] rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+
+                                {% for value, label in statuses %}
+
+                                    <option value="{{ value }}" {% if task.status == value %}selected{% endif %}>
+                                        {{ label|title }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Date Started -->
+                    <div class="grid grid-cols-4 px-6 py-4 items-center">
+
+                        <label for="created_at" class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Date Started
+                        </label>
+
+                        <div class="col-span-3">
+
+                            <input
+                                    type="date"
+                                    id="created_at"
+                                    name="created_at"
+                                    class="w-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#161b22] rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Date Completed -->
+                    <div class="grid grid-cols-4 px-6 py-4 items-center">
+
+                        <label for="completed_at" class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                            Date Completed
+                        </label>
+
+                        <div class="col-span-3">
+
+                            <input
+                                    type="date"
+                                    id="completed_at"
+                                    name="completed_at"
+                                    class="w-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#161b22] rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                {# Date Started #}
-                <div class="flex items-center">
-                    <label for="created_at" class="w-1/4 font-semibold text-gray-700">Date Started</label>
-                    <div class="w-3/4">
-                        <input type="date" id="created_at" name="created_at"
-                               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                </div>
 
-                {# Date Completed #}
-                <div class="flex items-center">
-                    <label for="completed_at" class="w-1/4 font-semibold text-gray-700">Date Completed</label>
-                    <div class="w-3/4">
-                        <input type="date" id="completed_at" name="completed_at"
-                               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
+                <!-- Buttons -->
+                <div class="px-6 py-4 flex justify-end">
+
+                    <button
+                            type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm transition"
+                    >
+                        Create Task
+                    </button>
+
                 </div>
 
             </div>
 
-            <div class="px-6 py-4 border-t flex space-x-2">
-                <input type="submit" value="Create"
-                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-            </div>
         </div>
+
     </form>
 {% endblock %}

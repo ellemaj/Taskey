@@ -4,39 +4,86 @@
 
 {% block content %}
 
-    <div class="flex justify-end mb-6">
-        <a href="/tasks/create"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-            Create New Task
-        </a>
-    </div>
+    <div class="space-y-6">
 
-    <div class="bg-white dark:bg-[#0d1117] rounded-xl shadow border border-slate-200 dark:border-[#30363d] overflow-hidden">
-        <table class="w-full text-left">
-            <thead class="bg-slate-100 dark:bg-[#161b22] text-slate-700 dark:text-slate-300">
-            <tr>
-                <th class="px-6 py-3 w-1/2">Title</th>
-                <th class="px-6 py-3 w-1/4">View</th>
-            </tr>
-            </thead>
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-semibold text-slate-900 dark:text-white">
+                    Tasks
+                </h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    Manage and track all your tasks
+                </p>
+            </div>
 
-            <tbody class="divide-y divide-slate-200 dark:divide-[#30363d]">
-            {% for task in tasks %}
-                <tr class="hover:bg-slate-50 dark:hover:bg-[#161b22] transition">
-                    <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
-                        {{ task.title }}
-                    </td>
+            <a href="/tasks/create"
+               class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm transition">
+                + Create Task
+            </a>
+        </div>
 
-                    <td class="px-6 py-4">
-                        <a href="/tasks/{{ task.id }}"
-                           class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
-                            View
-                        </a>
-                    </td>
+        <!-- Table -->
+        <div class="bg-white dark:bg-[#0d1117] rounded-xl shadow-sm border border-slate-200 dark:border-[#30363d] overflow-hidden">
+
+            <table class="w-full text-sm">
+
+                <thead class="bg-slate-50 dark:bg-[#161b22] text-slate-600 dark:text-slate-400 uppercase text-xs tracking-wider">
+                <tr>
+                    <th class="px-6 py-4 text-left">Title</th>
+                    <th class="px-6 py-4 text-left">Priority</th>
+                    <th class="px-6 py-4 text-left">Status</th>
+                    <th class="px-6 py-4 text-right">Action</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody class="divide-y divide-slate-200 dark:divide-[#30363d]">
+
+                {% for task in tasks %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-[#161b22] transition">
+
+                        <!-- Title -->
+                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
+                            {{ task.title }}
+                        </td>
+
+                        <!-- Priority -->
+                        <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-md
+                            bg-{{ priorityColours[task.priority] }}/20
+                            text-{{ priorityColours[task.priority] }}
+                            font-medium capitalize">
+                            {{ priorities[task.priority] }}
+                        </span>
+                        </td>
+
+                        <!-- Status -->
+                        <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-md
+                            bg-{{ statusColours[task.status] }}/20
+                            text-{{ statusColours[task.status] }}
+                            font-medium capitalize">
+                            {{ statuses[task.status] }}
+                        </span>
+                        </td>
+
+                        <!-- Action -->
+                        <td class="px-6 py-4 text-right">
+                            <a href="/tasks/{{ task.id }}"
+                               class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm transition">
+                                View →
+                            </a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
 
 {% endblock %}
